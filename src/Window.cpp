@@ -20,7 +20,7 @@ Window::createWindow()
 	// Initialize GLFW
 	if (!glfwInit()) {
 		std::cerr << "Failed to initialize GLFW" << std::endl;
-		return;
+		exit(1);
 	}
 
 	// Set the OpenGL version
@@ -29,11 +29,11 @@ Window::createWindow()
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	// Create the window
-	window = glfwCreateWindow(800, 600, "Trabalho Parte 1", nullptr, nullptr);
+	window = glfwCreateWindow(width, height, title, nullptr, nullptr);
 	if (!window) {
 		std::cerr << "Failed to create GLFW window" << std::endl;
 		glfwTerminate();
-		return;
+		exit(1);
 	}
 
 	glfwMakeContextCurrent(window);
@@ -43,10 +43,10 @@ Window::createWindow()
 	if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) {
 		std::cerr << "Failed to initialize GLAD" << std::endl;
 		glfwTerminate();
-		return;
+		exit(1);
 	}
 
-	glEnable(GL_DEPTH_TEST);
+//	glEnable(GL_DEPTH_TEST);
 
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 	glfwSetKeyCallback(window, keyboardExitCallback);
@@ -60,23 +60,13 @@ void
 Window::updateWindow()
 {
 	double currentFrame = glfwGetTime();
-	dt                  = currentFrame - lastFrame;
+	deltaTime = currentFrame - lastFrame;
 	lastFrame           = currentFrame;
-
 
 	// Clear the screen
 	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-//	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glClear(GL_COLOR_BUFFER_BIT);
-
-	// Draw the triangle
-	glUseProgram(renderer.getShaderProgram());
-	glBindVertexArray(VAO);
-	glDrawArrays(GL_TRIANGLES, 0, 3);
-
-	// Swap the buffers
-	glfwSwapBuffers(window);
-	glfwPollEvents();
+	// also clear the depth buffer now!
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 }
 
@@ -94,12 +84,6 @@ Window::terminateWindow()
 	}
 
 	window = nullptr;
-	VBO = 0;
-	VAO = 0;
-	angle_location = 0;
-	position_attribute = 0;
-
-    renderer.~Renderer();
 }
 
 /**

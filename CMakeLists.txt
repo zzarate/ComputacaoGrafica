@@ -11,10 +11,11 @@ include_directories("${GLFW_SOURCE_DIR}/include")
 add_compile_options(-lglfw3 -lGL -lX11 -lpthread -lXrandr -lXi -ldl)
 
 add_executable(Trabalho src/main.cpp
-        src/Renderer.cpp
-        src/Renderer.h
+        src/Shader.cpp
+        src/Shader.h
         src/Window.cpp
-        src/Window.h)
+        src/Window.h
+)
 
 include(FetchContent)
 

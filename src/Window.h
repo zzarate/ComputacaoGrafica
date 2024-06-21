@@ -6,7 +6,7 @@
 #define TRABALHOP1_WINDOW_H
 
 #include "../include/glad/glad.h"
-#include "Renderer.h"
+#include "Shader.h"
 
 #include <GLFW/glfw3.h>
 #include <iostream>
@@ -14,8 +14,9 @@
 class Window
 {
 public:
-
-	Renderer renderer = Renderer();
+	const char *title   = "Trabalho Parte 1";   // Title
+	int width           = 800;                  // Width
+	int height          = 600;                  // Height
 
 	Window();
 	~Window();
@@ -26,11 +27,9 @@ public:
 
 private:
 	GLFWwindow *window{};           // Window
-	unsigned int VBO{}, VAO{};      // Vertex data
-	GLint angle_location{};         // Uniforms
-	GLint position_attribute{};     // Attributes
-	double lastFrame = 0;           // Last frame time
-	double dt = 0;                  // Delta time
+
+	double lastFrame    = 0;           // Last frame time
+	double deltaTime    = 0;           // Delta time
 
 	// Callbacks for the window
 	static void framebuffer_size_callback(GLFWwindow *window, int width, int height);
