@@ -8,7 +8,7 @@ void main()
 {
 
     // ambient
-    vec3 ambient = 0.1 * lightColor;
+    vec3 ambient = 0.3 * lightColor;
 
     vec3 result = ambient * objectColor;
     FragColor = vec4(result, 1.0);
