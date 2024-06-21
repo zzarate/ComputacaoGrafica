@@ -13,10 +13,6 @@ int main()
 	glEnable(GL_DEPTH_TEST);
 	Shader shader = Shader("shaders/vertex.s", "shaders/fragment.s");
 
-	/**********************************************************/
-	/*   TODO: IM PROGRESS OBJECTS AND SHADERS                 */
-	/**********************************************************/
-
 	float vertices[] = {
 	        -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
 	        0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
@@ -61,7 +57,7 @@ int main()
 	        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
 	};
 
-	// Create the two cubes
+	// Create the first cube
 	unsigned int VBO, VAO;
 	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
@@ -83,9 +79,27 @@ int main()
 	// Unbind the vertex array
 	glBindVertexArray(0);
 
+	// Create the second cube
+	unsigned int VBO2, VAO2;
+	glGenVertexArrays(1, &VAO2);
+	glGenBuffers(1, &VBO2);
 
-	/**********************************************************/
-	/**********************************************************/
+	// Bind the vertex array
+	glBindVertexArray(VAO2);
+
+	// Bind the vertex buffer
+	glBindBuffer(GL_ARRAY_BUFFER, VBO2);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+	// Set the vertex attributes
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);
+
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+	glEnableVertexAttribArray(1);
+
+	// Unbind the vertex array
+	glBindVertexArray(0);
 
 	// Render loop
 	while (!glfwWindowShouldClose(window.getWindow())) {
@@ -95,36 +109,42 @@ int main()
 		// Use the shader program
 		shader.useShader();
 
-		/**************************************************/
-
-
-		shader.setVec3("objectColor", 1.0f, 0.5f, 0.31f);
+		// Set the color for the first cube
+		shader.setVec3("objectColor", 1.0f, 0.5f, 0.41f);
 		shader.setVec3("lightColor", 1.0f, 1.0f, 1.0f);
 
-		// create transformations
-		glm::mat4 model         = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
-		glm::mat4 view          = glm::mat4(1.0f);
-		glm::mat4 projection    = glm::mat4(1.0f);
+		// Create transformations for the first cube
+		glm::mat4 model1 = glm::mat4(1.0f);
+		glm::mat4 view = glm::mat4(1.0f);
+		glm::mat4 projection = glm::mat4(1.0f);
 
-		model = glm::rotate(model, (float)glfwGetTime(), glm::vec3(0.5f, 1.0f, 0.0f));
-		view  = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+		model1 = glm::scale(model1, glm::vec3(0.5f));
+		model1 = glm::rotate(model1, (float)glfwGetTime(), glm::vec3(0.5f, 1.0f, 0.0f));
+		view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
 		projection = glm::perspective(glm::radians(45.0f), (float)window.width / (float)window.height, 0.1f, 100.0f);
 
-		// retrieve the matrix uniform locations
-		unsigned int modelLoc = glGetUniformLocation(shader.getShaderProgram(), "model");
-		unsigned int viewLoc  = glGetUniformLocation(shader.getShaderProgram(), "view");
-		// pass them to the shaders (3 different ways)
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, &view[0][0]);
-		// note: currently we set the projection matrix each frame, but since the projection matrix rarely changes it's often best practice to set it outside the main loop only once.
+		shader.setMat4("model", model1);
+		shader.setMat4("view", view);
 		shader.setMat4("projection", projection);
 
-		// render the cube
+		// Draw the first cube
 		glBindVertexArray(VAO);
 		glDrawArrays(GL_TRIANGLES, 0, 36);
 
+		// Set the color for the second cube
+		shader.setVec3("objectColor", 0.0f, 0.0f, 1.0f);
 
-		/**************************************************/
+		// Create transformations for the second cube
+		glm::mat4 model2 = glm::mat4(1.0f);
+		model2 = glm::scale(model2, glm::vec3(0.5f));
+		model2 = glm::translate(model2, glm::vec3(1.5f, 0.0f, 0.0f));
+		model2 = glm::rotate(model2, (float)glfwGetTime(), glm::vec3(0.5f, 1.0f, 0.0f));
+
+		shader.setMat4("model", model2);
+
+		// Draw the second cube
+		glBindVertexArray(VAO2);
+		glDrawArrays(GL_TRIANGLES, 0, 36);
 
 		// Swap the buffers
 		glfwSwapBuffers(window.getWindow());
