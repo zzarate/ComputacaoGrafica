@@ -5,6 +5,7 @@
 
 #include "Shader.h"
 #include "../include/glad.c"
+#include <unistd.h>
 #include <cstring>
 #include <fstream>
 #include <iostream>

@@ -11,50 +11,52 @@ int main()
 
 	window.createWindow();
 	glEnable(GL_DEPTH_TEST);
-	Shader shader = Shader("shaders/vertex.s", "shaders/fragment.s");
+//	Shader shader = Shader("shaders/vertex.s", "shaders/diffuse.s");
+	Shader shader = Shader("shaders/vertex.s", "shaders/ambient.s");
 
 	float vertices[] = {
-	        -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-	        0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
-	        0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	        0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-	        -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+	        // positions          // normals           // texture coords
+	        -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f,  0.0f,
+	        0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f,  0.0f,
+	        0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f,  1.0f,
+	        0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f,  1.0f,
+	        -0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f,  1.0f,
+	        -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f,  0.0f,
 
-	        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-	        0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-	        0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-	        0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-	        -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-	        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+	        -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  0.0f,  0.0f,
+	        0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  1.0f,  0.0f,
+	        0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  1.0f,  1.0f,
+	        0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  1.0f,  1.0f,
+	        -0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  0.0f,  1.0f,
+	        -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  0.0f,  0.0f,
 
-	        -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-	        -0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-	        -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+	        -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f,  0.0f,
+	        -0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  1.0f,  1.0f,
+	        -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f,  1.0f,
+	        -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f,  1.0f,
+	        -0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  0.0f,  0.0f,
+	        -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f,  0.0f,
 
-	        0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-	        0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	        0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	        0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	        0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-	        0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+	        0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f,  0.0f,
+	        0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  1.0f,  1.0f,
+	        0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.0f,  1.0f,
+	        0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.0f,  1.0f,
+	        0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  0.0f,  0.0f,
+	        0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f,  0.0f,
 
-	        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	        0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
-	        0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-	        0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-	        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-	        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+	        -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f,  1.0f,
+	        0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  1.0f,  1.0f,
+	        0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f,  0.0f,
+	        0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f,  0.0f,
+	        -0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  0.0f,  0.0f,
+	        -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f,  1.0f,
 
-	        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-	        0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	        0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-	        0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-	        -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-	        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
+	        -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f,  1.0f,
+	        0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  1.0f,  1.0f,
+	        0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  1.0f,  0.0f,
+	        0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  1.0f,  0.0f,
+	        -0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  0.0f,  0.0f,
+	        -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f,  1.0f
 	};
 
 	// Create the first cube
@@ -70,11 +72,14 @@ int main()
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
 	// Set the vertex attributes
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
 
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
 	glEnableVertexAttribArray(1);
+
+	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(5 * sizeof(float)));
+	glEnableVertexAttribArray(2);
 
 	// Unbind the vertex array
 	glBindVertexArray(0);
@@ -92,11 +97,14 @@ int main()
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
 	// Set the vertex attributes
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
 
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
 	glEnableVertexAttribArray(1);
+
+	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(5 * sizeof(float)));
+	glEnableVertexAttribArray(2);
 
 	// Unbind the vertex array
 	glBindVertexArray(0);
@@ -109,6 +117,9 @@ int main()
 		// Use the shader program
 		shader.useShader();
 
+		// Set the color and lighting properties for the first cube
+		shader.setVec3("lightPos", 0.4f, 0.4f, 0.4f);
+
 		// Set the color for the first cube
 		shader.setVec3("objectColor", 1.0f, 0.5f, 0.41f);
 		shader.setVec3("lightColor", 1.0f, 1.0f, 1.0f);
@@ -119,7 +130,7 @@ int main()
 		glm::mat4 projection = glm::mat4(1.0f);
 
 		model1 = glm::scale(model1, glm::vec3(0.5f));
-		model1 = glm::rotate(model1, (float)glfwGetTime(), glm::vec3(0.5f, 1.0f, 0.0f));
+		model1 = glm::rotate(model1, (float)glfwGetTime(), glm::vec3(0.0f, 1.0f, 0.0f));
 		view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
 		projection = glm::perspective(glm::radians(45.0f), (float)window.width / (float)window.height, 0.1f, 100.0f);
 
@@ -138,7 +149,7 @@ int main()
 		glm::mat4 model2 = glm::mat4(1.0f);
 		model2 = glm::scale(model2, glm::vec3(0.5f));
 		model2 = glm::translate(model2, glm::vec3(1.5f, 0.0f, 0.0f));
-		model2 = glm::rotate(model2, (float)glfwGetTime(), glm::vec3(0.5f, 1.0f, 0.0f));
+		model2 = glm::rotate(model2, (float)glfwGetTime(), glm::vec3(0.0f, 1.0f, 0.0f));
 
 		shader.setMat4("model", model2);
 
