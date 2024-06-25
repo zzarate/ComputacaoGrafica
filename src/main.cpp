@@ -12,10 +12,12 @@ int main()
 	window.createWindow();
 	glEnable(GL_DEPTH_TEST);
 //	Shader shader = Shader("shaders/vertex.s", "shaders/diffuse.s");
-	Shader shader = Shader("shaders/vertex.s", "shaders/ambient.s");
+//	Shader shader = Shader("shaders/vertex.s", "shaders/ambient.s");
+//	Shader shader = Shader("shaders/vertex.s", "shaders/specular.s");
+	Shader shader = Shader("shaders/vertex.s", "shaders/all.s");
 
 	float vertices[] = {
-	        // positions          // normals           // texture coords
+	        // positions          // normals
 	        -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f,  0.0f,
 	        0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f,  0.0f,
 	        0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f,  1.0f,
@@ -117,8 +119,11 @@ int main()
 		// Use the shader program
 		shader.useShader();
 
-		// Set the color and lighting properties for the first cube
-		shader.setVec3("lightPos", 0.4f, 0.4f, 0.4f);
+		// Set the light in fixed pos
+		shader.setVec3("lightPos", 1.2f, 1.0f, 2.0f);
+
+		// Set the view pos
+//		shader.setVec3("viewPos", 1.0f, 1.0f, 1.0f);
 
 		// Set the color for the first cube
 		shader.setVec3("objectColor", 1.0f, 0.5f, 0.41f);
@@ -130,7 +135,7 @@ int main()
 		glm::mat4 projection = glm::mat4(1.0f);
 
 		model1 = glm::scale(model1, glm::vec3(0.5f));
-		model1 = glm::rotate(model1, (float)glfwGetTime(), glm::vec3(0.0f, 1.0f, 0.0f));
+		model1 = glm::rotate(model1, (float)glfwGetTime(), glm::vec3(0.5f, 1.0f, 0.0f));
 		view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
 		projection = glm::perspective(glm::radians(45.0f), (float)window.width / (float)window.height, 0.1f, 100.0f);
 
@@ -149,7 +154,7 @@ int main()
 		glm::mat4 model2 = glm::mat4(1.0f);
 		model2 = glm::scale(model2, glm::vec3(0.5f));
 		model2 = glm::translate(model2, glm::vec3(1.5f, 0.0f, 0.0f));
-		model2 = glm::rotate(model2, (float)glfwGetTime(), glm::vec3(0.0f, 1.0f, 0.0f));
+		model2 = glm::rotate(model2, (float)glfwGetTime(), glm::vec3(0.5f, 1.0f, 0.0f));
 
 		shader.setMat4("model", model2);
 
