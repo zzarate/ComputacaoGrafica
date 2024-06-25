@@ -123,7 +123,7 @@ int main()
 		shader.setVec3("lightPos", 1.2f, 1.0f, 2.0f);
 
 		// Set the view pos
-//		shader.setVec3("viewPos", 1.0f, 1.0f, 1.0f);
+		shader.setVec3("viewPos", 1.0f, 1.0f, 1.0f);
 
 		// Set the color for the first cube
 		shader.setVec3("objectColor", 1.0f, 0.5f, 0.41f);
